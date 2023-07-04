@@ -53,64 +53,63 @@ class _CustomCalendarState extends State<CustomCalendar> {
         child: Column(
           children: [
             const SizedBox(height: 10,),
-            Expanded(
-              child: GridView.builder(
-                gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                    maxCrossAxisExtent: 240,
-                    childAspectRatio: 8 / 2,
-                    crossAxisSpacing: 10,
-                    mainAxisSpacing: 5),
-                itemCount: widget.isJoiningTime ? joiningTimeChoices.length : leavingTimeChoices.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return ChoiceChip(
-                    label: Container(
-                      width: MediaQuery.of(context).size.width*0.35,
-                      margin: const EdgeInsets.symmetric(horizontal: 2, vertical: 5),
-                      child: Text(
-                        widget.isJoiningTime ? joiningTimeChoices[index] : leavingTimeChoices[index],
-                        style: const TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400
-                        ),
-                        textAlign: TextAlign.center,
+            GridView.builder(
+              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                  maxCrossAxisExtent: 240,
+                  childAspectRatio: 8 / 2,
+                  crossAxisSpacing: 10,
+                  mainAxisSpacing: 5),
+              shrinkWrap: true,
+              itemCount: widget.isJoiningTime ? joiningTimeChoices.length : leavingTimeChoices.length,
+              itemBuilder: (BuildContext context, int index) {
+                return ChoiceChip(
+                  label: Container(
+                    width: MediaQuery.of(context).size.width*0.35,
+                    margin: const EdgeInsets.symmetric(horizontal: 2, vertical: 5),
+                    child: Text(
+                      widget.isJoiningTime ? joiningTimeChoices[index] : leavingTimeChoices[index],
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400
                       ),
+                      textAlign: TextAlign.center,
                     ),
-                    labelStyle: TextStyle(color: _defaultChoiceIndex == index ? Colors.white: Colors.blue),
-                    selected: _defaultChoiceIndex == index,
-                    selectedColor: Colors.blue,
-                    backgroundColor: Colors.blue.withOpacity(0.1),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5)
-                    ),
-                    onSelected: (bool selected) {
-                      setState(() {
-                        _defaultChoiceIndex = selected ? index : 0;
-                        if(widget.isJoiningTime){
-                          if(_defaultChoiceIndex==0){
-                            _selectedDate = DateTime.now();
-                          }else if(_defaultChoiceIndex==1){
-                            _selectedDate = DateTime(widget.focusedDay.year, widget.focusedDay.month, widget.focusedDay.day + 1);
-                          }else if(_defaultChoiceIndex==2){
-                            _selectedDate = DateTime(widget.focusedDay.year, widget.focusedDay.month, widget.focusedDay.day + 2);
-                          }else if(_defaultChoiceIndex==3){
-                            _selectedDate = DateTime(widget.focusedDay.year,widget.focusedDay.month, widget.focusedDay.day + 7);
-                          }
+                  ),
+                  labelStyle: TextStyle(color: _defaultChoiceIndex == index ? Colors.white: Colors.blue),
+                  selected: _defaultChoiceIndex == index,
+                  selectedColor: Colors.blue,
+                  backgroundColor: Colors.blue.withOpacity(0.1),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5)
+                  ),
+                  onSelected: (bool selected) {
+                    setState(() {
+                      _defaultChoiceIndex = selected ? index : 0;
+                      if(widget.isJoiningTime){
+                        if(_defaultChoiceIndex==0){
+                          _selectedDate = DateTime.now();
+                        }else if(_defaultChoiceIndex==1){
+                          _selectedDate = DateTime(widget.focusedDay.year, widget.focusedDay.month, widget.focusedDay.day + 1);
+                        }else if(_defaultChoiceIndex==2){
+                          _selectedDate = DateTime(widget.focusedDay.year, widget.focusedDay.month, widget.focusedDay.day + 2);
+                        }else if(_defaultChoiceIndex==3){
+                          _selectedDate = DateTime(widget.focusedDay.year,widget.focusedDay.month, widget.focusedDay.day + 7);
+                        }
+                      }else{
+                        if(_defaultChoiceIndex==0){
+                          _selectedDate = DateTime.utc(3000);
                         }else{
-                          if(_defaultChoiceIndex==0){
-                            _selectedDate = DateTime.utc(3000);
+                          if(widget.firstDay.isBefore(DateTime.now())){
+                            _selectedDate = DateTime.now();
                           }else{
-                            if(widget.firstDay.isBefore(DateTime.now())){
-                              _selectedDate = DateTime.now();
-                            }else{
-                              _selectedDate = widget.firstDay;
-                            }
+                            _selectedDate = widget.firstDay;
                           }
                         }
-                      });
-                    },
-                  );
-                },
-              ),
+                      }
+                    });
+                  },
+                );
+              },
             ),
             // Text('Selected Date: $_selectedDate'),
             TableCalendar(
