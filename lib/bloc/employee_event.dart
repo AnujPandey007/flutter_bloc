@@ -1,23 +1,35 @@
+import 'package:equatable/equatable.dart';
+import 'package:flutter/cupertino.dart';
 import '../models/employee.dart';
 
-abstract class EmployeeEvent {}
+@immutable
+abstract class EmployeeEvent  extends Equatable {
+  @override
+  List<Object?> get props => [];
+}
 
-class FetchEmployees extends EmployeeEvent {}
+final class FetchEmployees extends EmployeeEvent {}
 
-class AddEmployee extends EmployeeEvent {
+final class AddEmployee extends EmployeeEvent {
   final Employee employee;
-
   AddEmployee(this.employee);
+
+  @override
+  List<Object?> get props => [employee];
 }
 
-class UpdateEmployee extends EmployeeEvent {
+final class UpdateEmployee extends EmployeeEvent {
   final Employee employee;
-
   UpdateEmployee(this.employee);
+
+  @override
+  List<Object?> get props => [employee];
 }
 
-class DeleteEmployee extends EmployeeEvent {
+final class DeleteEmployee extends EmployeeEvent {
   final String employeeId;
-
   DeleteEmployee(this.employeeId);
+
+  @override
+  List<Object?> get props => [employeeId];
 }

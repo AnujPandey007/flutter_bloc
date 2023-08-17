@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'bloc/employee_bloc.dart';
 import 'repositories/employee_repository.dart';
 import 'screens/employee_list_screen.dart';
